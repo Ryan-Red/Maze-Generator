@@ -2,9 +2,14 @@
 #include <vector>
 #include <stdlib.h>
 #include <sstream>
- 
+#include <time.h>
+
 #include<opencv2/highgui/highgui.hpp>
 #include<opencv2/imgproc/imgproc.hpp>
+
+
+
+
 
 struct Node{
     int x;
@@ -84,7 +89,7 @@ int main(int argc, char* argv[])
 {
 
 
-
+    srand( (unsigned)time(NULL) );
     int n = 4;
     int m = 3;
 
