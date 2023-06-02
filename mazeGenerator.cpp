@@ -7,8 +7,10 @@
 #include<opencv2/highgui/highgui.hpp>
 #include<opencv2/imgproc/imgproc.hpp>
 
+#include <cmath>
 
 
+float MAZE_WIDTH = 150.0f/2;
 
 
 struct Node{
@@ -191,7 +193,7 @@ int main(int argc, char* argv[])
 
     cv::Mat whiteMatrix(1300, 1300, CV_8UC3, cv::Scalar(255, 255, 255));//Declaring a white matrix
     cv::namedWindow("whiteMatrix");//Declaring a window to show the circle
-  
+    float angle = 0;
     for(i = 0; i < n; i ++){
         for(j = 0; j < m; j++){
             int cur_x = nodesList[i][j].x;
@@ -200,12 +202,22 @@ int main(int argc, char* argv[])
 
             std::vector<std::vector<int>> v = nodesList[i][j].adj;
 
-            for (auto x : v)
-                drawLine(whiteMatrix, {cur_x * vert_mult + 150, cur_y* horiz_mult + 150 }, {x[0] * vert_mult + 150, x[1] * horiz_mult + 150});
+            for (auto x : v){
 
+                angle = atan2(x[1] - cur_y, x[0] - cur_x);
+                
+                int coord_x_1 = cur_x * vert_mult + 150;
+                int coord_y_1 = cur_y * horiz_mult + 150;
+
+                int coord_x_2 = x[0] * vert_mult + 150;
+                int coord_y_2  = x[1] * horiz_mult + 150;
+
+                // drawLine(whiteMatrix, {coord_x_1, coord_y_1}, {coord_x_2, coord_y_2});
+                drawLine(whiteMatrix, {coord_x_1 - static_cast<int>(sin(angle) * MAZE_WIDTH), coord_y_1 + static_cast<int>(cos(angle) * MAZE_WIDTH) }, {coord_x_2 - static_cast<int>(sin(angle) * MAZE_WIDTH), coord_y_2 + static_cast<int>(cos(angle) * MAZE_WIDTH) });
+                
                 // std::cout << " -> (" << x[0] << ", " << x[1] << ")";
 
-            // cv::line(whiteMatrix, )
+            }
             
         }
     }
